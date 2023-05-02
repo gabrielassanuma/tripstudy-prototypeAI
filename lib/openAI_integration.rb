@@ -5,7 +5,6 @@ Dotenv.load
 
 
 answer = []
-fail_counter = 0
 openAI_key = ENV['OPENAI_KEY']
 client = OpenAI::Client.new(access_token: openAI_key)
 STUDENT_QUESTIONS.each do |question|
@@ -18,7 +17,6 @@ STUDENT_QUESTIONS.each do |question|
       })
   if response.dig("choices", 0, "message", "content") == nil
     answer << "Not processed by AI"
-    fail_counter += 1
   else
     answer << response.dig("choices", 0, "message", "content")
   end
@@ -34,5 +32,5 @@ end
 
 puts "==" * 30
 puts "Sent #{STUDENT_QUESTIONS.length} questions"
-puts "Receivied #{fail_counter} fails"
+puts "Receivied #{answer.count("Not processed by AI")} fails"
 
