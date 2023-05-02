@@ -22,7 +22,7 @@ STUDENT_QUESTIONS.each do |question|
   else
     answer << response.dig("choices", 0, "message", "content")
   end
-  sleep(5)
+  sleep(20)
 end
 
 
