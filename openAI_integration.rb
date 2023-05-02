@@ -3,7 +3,6 @@ require 'dotenv'
 Dotenv.load
 
 openAI_key = ENV['OPENAI_KEY']
-puts openAI_key
 client = OpenAI::Client.new(access_token: openAI_key)
 
 response = client.chat(
@@ -11,4 +10,4 @@ response = client.chat(
         model: "gpt-3.5-turbo", # Required.
         messages: [{ role: "user", content: "Describe how is the weather in Portugal"}]
     })
-puts response
+puts response.dig("choices", 0, "message", "content")
