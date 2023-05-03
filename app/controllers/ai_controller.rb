@@ -1,14 +1,12 @@
-require_relative "../views/view"
 require_relative "../models/user"
 require_relative "../models/question"
 
 class AiController
 
-  def initialize
-    @view = View.new
-  end
+  def chat(user)
+    puts "What's your question?"
+    Question.create(user: user, content: gets.chomp)
+
     
-  def index
-    puts "test"
   end
 end

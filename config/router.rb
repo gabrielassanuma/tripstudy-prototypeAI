@@ -5,8 +5,9 @@ class Router
   end
 
   def run
+    user = User.create
     loop do
-      puts "Test"
+      @controller.chat(user)
     end
   end
 
