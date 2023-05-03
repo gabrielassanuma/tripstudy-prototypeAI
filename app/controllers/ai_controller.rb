@@ -7,12 +7,17 @@ Dotenv.load
 class AiController
 
   def chat(user)
-    puts "What's your question?"
-    question_content = gets.chomp
-    question = Question.create(user: user, content: question_content)
-    answer = fetch_ai(question_content)
-    question.update(answer: answer)
-    p question
+    if !user.questions? 
+      puts "What's your question?"
+      question_content = gets.chomp
+      question = Question.create(user: user, content: question_content)
+      answer = fetch_ai(question_content)
+      question.update(answer: answer)
+      puts question.answer
+    else
+      puts "More questions?"
+      question_content = gets.chomp
+    end
     
   end
 
@@ -28,7 +33,6 @@ class AiController
           temperature: 0.2,
           max_tokens: 350
       })
-    puts response
-    p response.dig("choices", 0, "message", "content")
+    response.dig("choices", 0, "message", "content")
   end
 end
