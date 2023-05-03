@@ -1,3 +1,14 @@
+require_relative "../views/view"
+require_relative "../models/user"
+require_relative "../models/question"
+
 class AiController
-  # TODO
+
+  def initialize
+    @view = View.new
+  end
+    
+  def index
+    puts "test"
+  end
 end
