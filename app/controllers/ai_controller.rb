@@ -1,0 +1,3 @@
+class AiController
+  # TODO
+end

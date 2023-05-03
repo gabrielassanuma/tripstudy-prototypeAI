@@ -13,7 +13,7 @@ STUDENT_QUESTIONS.each do |question|
           model: "gpt-3.5-turbo", 
           messages: [{ role: "user", content: question}],
           temperature: 0.2,
-          max_tokens: 200
+          max_tokens: 350
       })
   if response.dig("choices", 0, "message", "content") == nil
     answer << "Not processed by AI"
