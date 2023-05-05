@@ -6,7 +6,11 @@ Dotenv.load
 
 class AiController
 
-  def chat(user)
+  def chat(user_id)
+    user = User.find_by(id: user_id)
+    if user.nil?
+      user = User.create(id: user_id)
+    end
     puts "What's your question?"
     question_content = gets.chomp
     question = Question.create(user: user, content: question_content)
