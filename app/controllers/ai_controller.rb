@@ -20,16 +20,22 @@ class AiController
     openAI_key = ENV['OPENAI_KEY']
     client = OpenAI::Client.new(access_token: openAI_key)
 
+    messages = [{ role: "user", content: question_content }]
+    previous_questions = Question.where(user: user).where.not(answer: nil)
+    previous_questions.each do |question|
+      messages << { role: "user", content: question.content }
+      messages << { role: "ai", content: question.answer }
+
     if user.questions.nil?
       temperature = 1.5
       max_tokens = 700
-    elsif user.questions.size <= 3
+    elsif user.questions.size <= 2
       temperature = 1.0
       max_tokens = 400
-    elsif user.questions.size <= 6
+    elsif user.questions.size <= 4
       temperature = 0.8
       max_tokens = 300
-    elsif user.questions.size <= 10
+    elsif user.questions.size <= 16
       temperature = 0.6
       max_tokens = 200
     else
