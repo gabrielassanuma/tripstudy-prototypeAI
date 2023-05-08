@@ -12,7 +12,6 @@ class AiController
     question = Question.create(user: user, content: question_content)
     answer = fetch_ai(question_content, user)
     question.update(answer: answer)
-    p user
   end
 
   private
@@ -20,24 +19,32 @@ class AiController
   def fetch_ai(question_content, user)
     openAI_key = ENV['OPENAI_KEY']
     client = OpenAI::Client.new(access_token: openAI_key)
+
     if user.questions.nil?
+      temperature = 1.5
+      max_tokens = 700
+    elsif user.questions.size <= 3
+      temperature = 1.0
+      max_tokens = 400
+    elsif user.questions.size <= 6
+      temperature = 0.8
+      max_tokens = 300
+    elsif user.questions.size <= 10
+      temperature = 0.6
+      max_tokens = 200
+    else
+      temperature = 0.4
+      max_tokens = 100
+    end
+
     response = client.chat(
       parameters: {
-          model: "gpt-3.5-turbo", 
-          messages: [{ role: "user", content: question_content}],
-          temperature: 1.5,
-          max_tokens: 500
+        model: "gpt-3.5-turbo", 
+        messages: [{ role: "user", content: question_content }],
+        temperature: temperature,
+        max_tokens: max_tokens
       })
+
     response.dig("choices", 0, "message", "content")
-    else
-      response = client.chat(
-        parameters: {
-            model: "gpt-3.5-turbo", 
-            messages: [{ role: "user", content: question_content}],
-            temperature: 0.2,
-            max_tokens: 100
-        })
-      response.dig("choices", 0, "message", "content")
-    end
   end
 end
