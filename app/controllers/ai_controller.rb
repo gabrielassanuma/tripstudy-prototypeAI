@@ -25,6 +25,7 @@ class AiController
     previous_questions.each do |question|
       messages << { role: "user", content: question.content }
       messages << { role: "ai", content: question.answer }
+    end
 
     if user.questions.nil?
       temperature = 1.5
@@ -43,6 +44,8 @@ class AiController
       max_tokens = 100
     end
 
+    p messages
+    p temperature
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", 
