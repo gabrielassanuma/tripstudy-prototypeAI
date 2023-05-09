@@ -44,14 +44,20 @@ class AiController
       max_tokens = 100
     end
 
+    metadata = {
+      course_data: Course.all_metadata
+    }
+
     p messages
     p temperature
+    p metadata
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", 
         messages: [{ role: "user", content: question_content }],
         temperature: temperature,
-        max_tokens: max_tokens
+        max_tokens: max_tokens,
+        metadata: metadata
       })
 
     response.dig("choices", 0, "message", "content")
