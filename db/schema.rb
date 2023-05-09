@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_173730) do
     t.text "description"
     t.float "price"
     t.text "duration"
+    t.text "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
