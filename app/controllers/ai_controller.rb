@@ -50,6 +50,7 @@ class AiController
 
     p messages
     p temperature
+    p metadata
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", 
