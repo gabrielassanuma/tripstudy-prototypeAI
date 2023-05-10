@@ -4,7 +4,7 @@ class Course < ActiveRecord::Base
     all.map do |course|
       {
         role: "user",
-        content: "We offer the #{course.name} it is located in #{course.location} the duration of this course is #{course.duration} the description of this course is #{course.description} and the price is #{course.price}"
+        content: "Oferecemos o curso: #{course.name} localizado em #{course.location} a duração do curso é de  #{course.duration} a descrição do curso: #{course.description}. O preço é de: #{course.price}"
       }
     end
   end
