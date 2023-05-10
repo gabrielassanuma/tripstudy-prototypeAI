@@ -20,11 +20,15 @@ class AiController
     openAI_key = ENV['OPENAI_KEY']
     client = OpenAI::Client.new(access_token: openAI_key)
 
-    messages = [{ role: "user", content: question_content }]
+    messages = [{role: "system", content: "Haja como se fosse uma agencia de intercambio, onde vc recebe todos os dados das escolas que oferecemos, interprete os dados e responda as questões de acordo com os dados enviados"},{ role: "user", content: question_content }]
     previous_questions = Question.where(user: user).where.not(answer: nil)
     previous_questions.each do |question|
       messages << { role: "user", content: question.content }
       messages << { role: "ai", content: question.answer }
+    end
+    metadata = Course.all_metadata
+    metadata.each do |course|
+      messages << course
     end
 
     if user.questions.nil?
@@ -44,22 +48,18 @@ class AiController
       max_tokens = 100
     end
 
-    metadata = {
-      course_data: Course.all_metadata
-    }
 
     p messages
     p temperature
-    p metadata
+
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", 
-        messages: [{ role: "user", content: question_content }],
+        messages: messages,
         temperature: temperature,
-        max_tokens: max_tokens,
-        metadata: metadata
+        max_tokens: max_tokens
       })
-
+    p response
     response.dig("choices", 0, "message", "content")
   end
 end
