@@ -26,6 +26,10 @@ class AiController
       messages << { role: "user", content: question.content }
       messages << { role: "ai", content: question.answer }
     end
+    metadata = Course.all_metadata
+    metadata.each do |course|
+      messages << course
+    end
 
     if user.questions.nil?
       temperature = 1.5
@@ -44,20 +48,16 @@ class AiController
       max_tokens = 100
     end
 
-    metadata = {
-      course_data: Course.all_metadata
-    }
 
     p messages
     p temperature
-    p metadata
+
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", 
         messages: [{ role: "user", content: question_content }],
         temperature: temperature,
-        max_tokens: max_tokens,
-        metadata: metadata
+        max_tokens: max_tokens
       })
 
     response.dig("choices", 0, "message", "content")
