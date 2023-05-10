@@ -20,7 +20,7 @@ class AiController
     openAI_key = ENV['OPENAI_KEY']
     client = OpenAI::Client.new(access_token: openAI_key)
 
-    messages = [{ role: "user", content: question_content }]
+    messages = [{role: "system", content: "Haja como se fosse uma agencia de intercambio, onde vc recebe todos os dados das escolas que oferecemos, interprete os dados e responda as questões de acordo com os dados enviados"},{ role: "user", content: question_content }]
     previous_questions = Question.where(user: user).where.not(answer: nil)
     previous_questions.each do |question|
       messages << { role: "user", content: question.content }
