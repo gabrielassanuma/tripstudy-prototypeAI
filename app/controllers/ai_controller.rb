@@ -55,11 +55,11 @@ class AiController
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", 
-        messages: [{ role: "user", content: question_content }],
+        messages: messages,
         temperature: temperature,
         max_tokens: max_tokens
       })
-
+    p response
     response.dig("choices", 0, "message", "content")
   end
 end
