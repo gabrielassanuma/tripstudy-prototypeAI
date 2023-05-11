@@ -19,7 +19,7 @@ class AiController
   def fetch_ai(question_content, user)
     openAI_key = ENV['OPENAI_KEY']
     client = OpenAI::Client.new(access_token: openAI_key)
-    messages = [{ role: "user", content: question_content }]
+    messages = [{role: "system", content: "Assuma o papel de um atendente em uma agencia de intercambios, todos os cursos disponíveis em sua agencia são os enviados nesse prompt com a role assistant"},{ role: "user", content: question_content }]
     previous_questions = Question.where(user: user).where.not(answer: nil)
     previous_questions.each do |question|
       messages << { role: "user", content: question.content }
