@@ -12,7 +12,6 @@ def generate_duration
   "#{rand(2..5)} years"
 end
 
-
 # Create 10 sample courses with random data
 30.times do
   Course.create!(
